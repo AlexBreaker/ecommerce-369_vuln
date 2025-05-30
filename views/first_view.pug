@@ -6,24 +6,19 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet")
     script.
-      // Dark mode toggle
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark')
-      }
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle('dark')
-        localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-      }
+
+
+
+
   body(class=['bg-gray-100', 'dark:bg-gray-900', 'transition-colors', 'duration-300'])
     // Header
     header(class=['bg-white', 'dark:bg-gray-800', 'shadow', 'sticky', 'top-0', 'z-10'])
       div(class=['container', 'mx-auto', 'px-4', 'py-4', 'flex', 'justify-between', 'items-center'])
-        h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white']) OMAR
-        a(href=url class=['text-blue-500', 'hover:underline', 'dark:text-blue-300']) URL
+        a(href=url class=['text-blue-500', 'hover:underline', 'dark:text-blue-300'])
+          h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white']) iPhone Store
         nav(class=['flex', 'items-center'])
-          a(href="/login" class=['text-blue-500', 'hover:underline', 'mr-4', 'dark:text-blue-300']) Login
-          a(href="/register" class=['text-blue-500', 'hover:underline', 'dark:text-blue-300']) Register
-          button(onclick="toggleDarkMode()" class=['p-2', 'rounded', 'bg-gray-200', 'dark:bg-gray-700', 'text-gray-800', 'dark:text-white']) Toggle Dark Mode
+          a(href="/srv_auth/login" class=['text-blue-500', 'hover:underline', 'mr-4', 'dark:text-blue-300']) Login
+          a(href="/srv_auth/signup" class=['text-blue-500', 'hover:underline', 'dark:text-blue-300']) Sign Up
 
     // Main Content
     main(class=['container', 'mx-auto', 'px-4', 'py-8'])
@@ -31,12 +26,12 @@ html(lang="en")
       div(class=['grid', 'grid-cols-1', 'sm:grid-cols-2', 'lg:grid-cols-3', 'gap-6'])
         // iPhone 14
         div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
-          img(src="/IPHONE14_blue_1.jpeg" alt="iPhone 14" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" )
+          img(src="/iphone_14.jpg" alt="iPhone 14" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" )
           div(class=['p-6'])
             h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 14
             p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $799
             p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A15 Bionic chip
-            a(href="iphone14" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
+            a(href="/phones?iphone_id=iphone_14" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
     
         // iPhone 14 Pro
         div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
@@ -45,54 +40,55 @@ html(lang="en")
             h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 14 Pro
             p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $999
             p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch ProMotion display, A16 Bionic chip
-            a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
+            a(href="/phones?iphone_id=iphone_14_pro" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
 
         // iPhone 13
         div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
-            form(action = "/", method = "POST")
-                div
-                    label(for = "say") Say:
-                    input(name = "say" value = "Hi")
-                br
-                div
-                    label(for = "to") To:
-                    input(name = "to" value = "Express forms")
-                br
-                button(type = "submit") Send my greetings 
+          img(src="/iphone_13.jpg" alt="iPhone 13" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+13'")
+          div(class=['p-6'])
+            h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 13
+            p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $699
+            p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A15 Bionic chip
+            a(href="/phones?iphone_id=iphone_13" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
+
+            //- form(action = "/", method = "POST")
+            //-     div
+            //-         label(for = "say") Say:
+            //-         input(name = "say" value = "Hi")
+            //-     br
+            //-     div
+            //-         label(for = "to") To:
+            //-         input(name = "to" value = "Express forms")
+            //-     br
+            //-     button(type = "submit") Send my greetings 
      
-        //-   img(src="/iphone_13.jpg" alt="iPhone 13" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+13'")
-        //-   div(class=['p-6'])
-        //-     h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 13
-        //-     p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $699
-        //-     p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A15 Bionic chip
-        //-     a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
 
-        //- // iPhone 15
-        //- div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
-        //-   img(src="/iphone_15.jpg" alt="iPhone 15" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+15'")
-        //-   div(class=['p-6'])
-        //-     h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 15
-        //-     p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $899
-        //-     p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A16 Bionic chip
-        //-     a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
+        // iPhone 15
+        div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
+          img(src="/iphone_15.jpg" alt="iPhone 15" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+15'")
+          div(class=['p-6'])
+            h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 15
+            p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $899
+            p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A16 Bionic chip
+            a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
 
-        //- // iPhone 15 Pro
-        //- div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
-        //-   img(src="/iphone_15_pro.jpg" alt="iPhone 15 Pro" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+15+Pro'")
-        //-   div(class=['p-6'])
-        //-     h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 15 Pro
-        //-     p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $1099
-        //-     p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch ProMotion display, A17 Pro chip
-        //-     a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
+        // iPhone 15 Pro
+        div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
+          img(src="/iphone_15_pro.jpg" alt="iPhone 15 Pro" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+15+Pro'")
+          div(class=['p-6'])
+            h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 15 Pro
+            p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $1099
+            p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch ProMotion display, A17 Pro chip
+            a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
 
-        //- // iPhone 16
-        //- div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
-        //-   img(src="/iphone_16.jpg" alt="iPhone 16" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+16'")
-        //-   div(class=['p-6'])
-        //-     h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 16
-        //-     p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $999
-        //-     p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A18 chip
-        //-     a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
+        // iPhone 16
+        div(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'overflow-hidden', 'transform', 'transition', 'hover:scale-105', 'duration-300'])
+          img(src="/iphone_16.jpg" alt="iPhone 16" class=['w-full', 'h-64', 'object-cover', 'lazy'] loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=iPhone+16'")
+          div(class=['p-6'])
+            h3(class=['text-xl', 'font-semibold', 'text-gray-800', 'dark:text-white']) iPhone 16
+            p(class=['text-gray-600', 'dark:text-gray-300', 'text-lg']) $999
+            p(class=['text-sm', 'text-gray-500', 'dark:text-gray-400', 'mb-4']) 6.1-inch display, A18 chip
+            a(href="#" class=['inline-block', 'bg-blue-500', 'text-white', 'px-4', 'py-2', 'rounded-full', 'hover:bg-blue-600', 'transition', 'font-medium']) Buy Now
     
 
 

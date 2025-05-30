@@ -1,0 +1,43 @@
+doctype html
+html(lang="en")
+  head
+    title iPhone Store - Sign Up
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet")
+    script.
+
+  body(class=['bg-gray-100', 'dark:bg-gray-900', 'transition-colors', 'duration-300'])
+    // Header
+    header(class=['bg-white', 'dark:bg-gray-800', 'shadow', 'sticky', 'top-0', 'z-10'])
+      div(class=['container', 'mx-auto', 'px-4', 'py-4', 'flex', 'justify-between', 'items-center'])
+        h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white']) iPhone Store
+        nav(class=['flex', 'items-center'])
+          a(href="/srv_auth/login" class=['text-blue-500', 'hover:underline', 'mr-4', 'dark:text-blue-300']) Login
+
+    // Main Content
+    main(class=['container', 'mx-auto', 'px-4', 'py-8', 'flex', 'justify-center', 'items-center', 'min-h-screen'])
+      section(class=['bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'p-8', 'w-full', 'max-w-md'])
+        h2(class=['text-3xl', 'font-bold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-6']) Sign Up
+        if error
+          p(class=['text-red-500', 'text-center', 'mb-4', 'text-sm']) #{error}
+        form(action="/srv_auth/signup" method="POST"  class=['space-y-6'])
+          div
+            label(for="username" class=['block', 'text-sm', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Username
+            input#username(type="text" name="username_input" required class=['mt-1', 'block', 'w-full', 'px-3', 'py-2', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'shadow-sm', 'focus:outline-none', 'focus:ring-blue-500', 'focus:border-blue-500', 'dark:bg-gray-700', 'dark:text-white'])
+          div
+            label(for="email" class=['block', 'text-sm', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Email
+            input#email(type="email" name="email_input" required class=['mt-1', 'block', 'w-full', 'px-3', 'py-2', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'shadow-sm', 'focus:outline-none', 'focus:ring-blue-500', 'focus:border-blue-500', 'dark:bg-gray-700', 'dark:text-white'])
+          div
+            label(for="password" class=['block', 'text-sm', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Password
+            input#password(type="password" name="password_input" required class=['mt-1', 'block', 'w-full', 'px-3', 'py-2', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'shadow-sm', 'focus:outline-none', 'focus:ring-blue-500', 'focus:border-blue-500', 'dark:bg-gray-700', 'dark:text-white'])
+          div
+            label(for="confirmPassword" class=['block', 'text-sm', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Confirm Password
+            input#confirmPassword(type="password" name="confirmpassword_input" required class=['mt-1', 'block', 'w-full', 'px-3', 'py-2', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'shadow-sm', 'focus:outline-none', 'focus:ring-blue-500', 'focus:border-blue-500', 'dark:bg-gray-700', 'dark:text-white'])
+          div(class=['text-center'])
+            button(type="submit" class=['w-full', 'bg-blue-600', 'text-white', 'px-4', 'py-2', 'rounded-full', 'text-lg', 'font-medium', 'hover:bg-blue-700', 'transition']) Sign Up
+          div(class='text-center my-2')
+            p(class='text-sm text-red-700 bg-red-100 border border-red-400 px-4 py-2 rounded')=message          
+          div(class=['text-center'])
+            p(class=['text-sm', 'text-gray-600', 'dark:text-gray-400']) Already have an Account? 
+              a(href="/srv_auth/login" class=['text-blue-600', 'hover:underline', 'dark:text-blue-300']) Login

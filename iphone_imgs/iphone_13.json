@@ -1,0 +1,20 @@
+{
+  "name": "iPhone 13",
+  "image":"/iphone_13.jpg",
+  "features": [
+    {
+      "f1": "6.1-inch Super Retina XDR",
+      "f2": "Bright and color-accurate OLED display with high contrast.",
+      "f3": "A15 Bionic Chip",
+      "f4": "Fast and efficient performance for everyday tasks and gaming.",
+      "f5": "Dual-Camera System",
+      "f6": "Capture great photos with 12MP wide and ultra-wide lenses.",
+      "f7": "No Crash Detection",
+      "f8": "Crash Detection is not available on iPhone 13.",
+      "f9": "No Emergency SOS via Satellite",
+      "f10": "Satellite connectivity is not supported on iPhone 13.",
+      "f11": "All-Day Battery Life",
+      "f12": "Up to 19 hours of video playback."
+    }
+  ]
+}
