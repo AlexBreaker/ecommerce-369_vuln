@@ -1,0 +1,105 @@
+doctype html
+html(lang="en")
+  head
+    title Admin 
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    link(href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet")
+    style.
+      html, body { height: 100%; margin: 0; }
+      main { height: calc(100vh - 4rem); } /* Adjust for header height */
+    script.
+
+
+
+  body(class=['bg-gray-100', 'dark:bg-gray-900', 'transition-colors', 'duration-300', 'flex', 'flex-col'])
+    // Header
+    header(class=['bg-white', 'dark:bg-gray-800', 'shadow', 'sticky', 'top-0', 'z-10'])
+      div(class=['container', 'mx-auto', 'px-4', 'py-4', 'flex', 'justify-between', 'items-center'])
+        h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white']) Admin DashBoard 
+        h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white'])=msg 
+        nav(class=['flex', 'items-center'])
+          a(href="/srv_auth/logout" class=['text-blue-500', 'hover:underline', 'mr-4', 'dark:text-blue-300']) Logout
+
+
+    // Main Content: Three Vertical Sections
+    main(class=['container', 'mx-auto', 'px-4', 'py-4', 'flex', 'flex-row', 'gap-4', 'h-full'])
+      // Left Section: Add Product
+      section(class=['flex-1', 'bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'p-6', 'overflow-y-auto'])
+        h2(class=['text-xl', 'font-bold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-4']) Add iPhone
+        form(action="/api/add-iphone" method="POST" class=['space-y-4'])
+          div
+            label(for="name" class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) iPhone Name
+            input#name(type="text" name="name" required class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          // Three Feature Inputs
+          - for (let i = 1; i <= 6; i++)
+            div(class=['grid', 'grid-cols-2', 'gap-2'])
+              div
+                label(for=`feature${i}_title` class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Feature #{i} Title
+                input(type="text" name=`features[${i-1}][h4_title]` class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+              div
+                label(for=`feature${i}_description` class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Description
+                input(type="text" name=`features[${i-1}][p_description]` class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          div(class=['text-center'])
+            p Upload Photo
+            input(type="file" name="file_image" class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+            button(type="submit" class=['bg-blue-500', 'text-white', 'px-4', 'py-1', 'rounded-full', 'text-sm', 'hover:bg-blue-600']) Add
+          if error
+            p(class=['text-red-500', 'text-center', 'text-xs', 'mt-2']) #{error}
+
+
+
+
+
+      // Middle Section: Delete Product
+      section(class=['flex-1', 'bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'p-6', 'overflow-y-auto'])
+        h2(class=['text-xl', 'font-bold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-4']) Delete iPhone
+        if phones && phones.length
+          ul(class=['space-y-2'])
+            each phone in phones
+              li(class=['flex', 'justify-between', 'items-center', 'text-sm'])
+                span(class=['text-gray-700', 'dark:text-gray-300']) #{phone}
+                form(action="/api/delete-iphone" method="POST")
+                  input(type="hidden" name="filename" value=phone)
+                  button(type="submit" class=['bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-full', 'text-xs', 'hover:bg-red-600']) Delete
+        else
+          p(class=['text-center', 'text-gray-600', 'dark:text-gray-400', 'text-sm']) No iPhones to delete.
+
+
+
+
+
+
+
+
+
+      // Right Section: Add and Delete User
+      section(class=['flex-1', 'bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'p-6', 'overflow-y-auto'])
+        h2(class=['text-xl', 'font-bold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-4']) Manage Users
+        // Add User
+        form(action="/api/add-user" method="POST" class=['space-y-4', 'mb-4'])
+          div
+            label(for="username" class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Username
+            input#username(type="text" name="username" required class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          div
+            label(for="password" class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Password
+            input#password(type="password" name="password" required class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          div(class=['text-center'])
+            button(type="submit" class=['bg-blue-500', 'text-white', 'px-4', 'py-1', 'rounded-full', 'text-sm', 'hover:bg-blue-600']) Add User
+
+
+
+
+
+        // Delete User
+        h3(class=['text-lg', 'font-semibold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-2']) Delete User
+        if users && users.length
+          ul(class=['space-y-2'])
+            each user in users
+              li(class=['flex', 'justify-between', 'items-center', 'text-sm'])
+                span(class=['text-gray-700', 'dark:text-gray-300']) #{user.username}
+                form(action="/api/delete-user" method="POST")
+                  input(type="hidden" name="username" value=user.username)
+                  button(type="submit" class=['bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-full', 'text-xs', 'hover:bg-red-600']) Delete
+        else
+          p(class=['text-center', 'text-gray-600', 'dark:text-gray-400', 'text-sm']) No users to delete.

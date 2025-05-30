@@ -1,0 +1,20 @@
+{
+  "name": "iPhone 14 Pro",
+  "image":"/iphone_14_pro.jpg",
+  "features": [
+    {
+      "f1": "6.1-inch Super Retina XDR",
+      "f2": "Vibrant OLED display with stunning clarity and color accuracy.",
+      "f3": "A16 Bionic Chip",
+      "f4": "Lightning-fast performance with improved power efficiency.",
+      "f5": "Pro Camera System",
+      "f6": "Capture stunning photos with a 48MP main and 12MP ultra-wide camera.",
+      "f7": "Crash Detection",
+      "f8": "Automatically alerts emergency services in case of a severe crash.",
+      "f9": "Emergency SOS via Satellite",
+      "f10": "Connect to emergency services even without cellular or Wi-Fi.",
+      "f11": "All-Day Battery Life",
+      "f12": "Up to 23 hours of video playback."
+    }
+  ]
+}
