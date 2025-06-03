@@ -1,5 +1,6 @@
 var express = require('express');
 const fs = require('fs').promises;
+const { Curl } = require("node-libcurl");
 
 var router = express.Router();
 
@@ -42,11 +43,20 @@ router.post('/stock', async (req, res) => {
     //stockApi: 'http://localhost:3000/phones/stock/check?iphone_id=iphone_14'
     // var stockApi_test = 'http://localhost:8000/api/users/user?id=10'
     //SSRF test data http://localhost:8000/api/users/user?id=10
-    var response = await fetch(stockApi); 
-    const data = await response.json(); // assuming it returns { quantity: number }
-    res.json(data);
-    
-  });
+
+    const curl = new Curl();
+    curl.setOpt("URL", stockApi);
+    curl.on("end", function (code, data, headers) {
+        res.send(data);
+        this.close();
+    });
+    curl.on("error", function (err) {
+        res.status(500).send("Internal Error");
+        console.error(err);
+        this.close();
+    });
+    curl.perform();
+});
 
 
 
