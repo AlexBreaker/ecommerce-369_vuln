@@ -68,8 +68,35 @@ router.get('/signup', function(req, res){
 //    res.render('admin_page', {id: req.session.user.id})
 // });
 
-router.get('/admin', ensureAuth, (req, res) => {
-   res.render('admin_page', { user: req.session.user  , msg : req.session.user.email });
+
+
+
+router.get('/admin',  ensureAuth, async (req, res) => {
+  let promoCodes = [];
+  const promoApiUrl = 'http://localhost:8000/api/offer_promo_season/all'; // <-- Your API endpoint
+    try {
+      const apiRes = await fetch(promoApiUrl);
+      if (!apiRes.ok) {
+          // If the API call itself returns an error status (e.g., 404, 500)
+          const errorData = await apiRes.json(); // Try to parse error message from API
+          throw new Error(`API Error: ${apiRes.status} ${apiRes.statusText} - ${errorData.message || ''}`);
+      }
+      const data = await apiRes.json();
+      promoCodes = data.promoSeasons || []; // Assuming your API returns { promoSeasons: [...] }
+  } catch (fetchErr) {
+      console.error("Admin route - Error fetching promo codes via API:", fetchErr);
+      pageError = "Failed to load promo codes (API error). Check server logs.";
+      // It's crucial to check if your /api/offer_promo_season/all route is running
+      // and correctly returning data, otherwise this fetch will fail.
+  }
+
+
+  res.render('admin_page', {
+    user: req.session.user,
+    msg: req.session.user.email, // Or a more generic welcome message
+    promoCodes: promoCodes
+  });
+
 });
 
 
@@ -168,6 +195,136 @@ router.post('/login', async function(req, res){
     }  
 
 });
+
+
+router.post('/createPromoSeason', async (req, res) => {
+  // Extract data from the request body received by this route
+  const { promocode, season, description } = req.body;
+
+  // --- Basic Server-Side Validation (before calling the internal API) ---
+  if (!promocode || !season) {
+      // If essential fields are missing from the client's request to this route
+      return res.json({
+          statusCode: 400,
+          message: "Missing mandatory fields (promocode, season) for creation."
+      });
+  }
+
+  // --- Call the actual internal API endpoint using fetch ---
+  const internalApiUrl = 'http://localhost:8000/api/offer_promo_season/createPromoSeason';
+
+  try {
+      const apiRes = await fetch(internalApiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          // Forward the received data to the internal API
+          body: JSON.stringify({ promocode, season, description })
+      });
+
+      const data = await apiRes.json(); // Parse the JSON response from the internal API
+
+      // Based on the internal API's response, send back a response to the client
+      if (data.statusCode === 201) {
+          // Success: Promo code created by the internal API
+          return res.json({
+              statusCode: 201,
+              message: "Promo season created successfully via API.",
+              promocode: data.promocode // Include the promocode returned by the API
+          });
+      } else if (data.statusCode === 409) {
+          // Conflict: Promo code already exists (as handled by the internal API)
+          return res.json({
+              statusCode: 409,
+              message: data.message || "Promo code already exists via API."
+          });
+      } else {
+          // Handle other potential errors from the internal API
+          return res.json({
+              statusCode: data.statusCode || 500,
+              message: data.message || "Failed to create promo season via API. Unknown error."
+          });
+      }
+
+  } catch (err) {
+      // Handle network errors or issues with the fetch call itself
+      console.error("Error contacting internal promo season creation API:", err);
+      return res.json({
+          statusCode: 500,
+          message: "Server error when attempting to create promo season."
+      });
+  }
+});
+
+router.post('/delete-promo-code-proxy', async (req, res) => {
+  // 1. Extract data from the request body sent by the frontend
+  const { promocode } = req.body;
+
+  // 2. Basic Server-Side Validation
+  if (!promocode) {
+      return res.json({
+          statusCode: 400,
+          message: "Missing mandatory 'promocode' field for deletion."
+      });
+  }
+
+  // 3. Define the URL of your actual API endpoint for deleting promo codes
+  // This is the endpoint you created previously, which interacts with MongoDB.
+  const actualApiUrl = 'http://localhost:8000/api/offer_promo_season/deletePromoSeason';
+
+  try {
+      // 4. Use fetch to send a POST request to your actual API endpoint
+      const apiRes = await fetch(actualApiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          // Send the promocode to be deleted to the actual API
+          body: JSON.stringify({ promocode })
+      });
+
+      // 5. Parse the JSON response from the actual API endpoint
+      const data = await apiRes.json();
+
+      // 6. Respond to the frontend based on the actual API's response
+      if (data.statusCode === 200) {
+          // Success: Promo code deleted by the actual API
+          return res.json({
+              statusCode: 200,
+              message: "Promo code deleted successfully.",
+              deletedPromocode: promocode // Confirm which promo code was deleted
+          });
+      } else if (data.statusCode === 404) {
+          // Not Found: Promo code not found by the actual API
+          return res.json({
+              statusCode: 404,
+              message: data.message || "Promo code not found for deletion."
+          });
+      } else {
+          // Handle other potential errors from the actual API (e.g., 500)
+          return res.json({
+              statusCode: data.statusCode || 500,
+              message: data.message || "Failed to delete promo code due to an internal API error."
+          });
+      }
+
+  } catch (err) {
+      // 7. Handle network errors or issues with the `fetch` call itself
+      console.error("Error contacting internal promo season deletion API:", err);
+      return res.json({
+          statusCode: 500,
+          message: "Server error when attempting to delete promo code."
+      });
+  }
+});
+
+
+
+
+// router.post('/selectPromoSeason', async (req, res) => {
+//   // 1. Extract data from the request body sent by the frontend
+//   const { promocode } = req.body;
+
+// });
+
+
 
 router.get('/logout', (req, res) => {
    req.session.destroy(err => {
