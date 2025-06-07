@@ -93,6 +93,36 @@ app.post('/', function(req, res){
       
 // });
 
+app.get('/offers', async function(req, res) {
+
+      const apiUrl = 'http://localhost:8000/api/offer_promo_season/latest';
+      const response = await fetch(apiUrl, {
+            method: 'GET', // Or simply omit, as GET is the default
+            headers: {
+                  'Content-Type': 'application/json'
+            }
+      });
+      const data = await response.json();
+
+      //SSTI
+      const fs = require('fs');
+
+      // Step 1: Read the file
+      let content = fs.readFileSync('./views/promo_page_template_dont_touch.pug', 'utf-8');
+      
+      // Step 2: Replace the placeholder
+      let replaced = content.replace('{placeholder}', data.promoCode.promocode);
+      
+      // Step 3: Write it back or log it
+      fs.writeFileSync('./views/promo_page.pug', replaced); // or console.log(replaced);
+      
+   res.render('promo_page');
+}); 
+
+
+
+
+
 // for parsing application/json
 app.use(bodyParser.json()); 
 

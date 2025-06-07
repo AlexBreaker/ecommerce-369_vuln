@@ -8,21 +8,21 @@ html(lang="en")
     style.
       html, body { height: 100%; margin: 0; }
       main { height: calc(100vh - 4rem); } /* Adjust for header height */
-    script.
-
-
 
   body(class=['bg-gray-100', 'dark:bg-gray-900', 'transition-colors', 'duration-300', 'flex', 'flex-col'])
     // Header
     header(class=['bg-white', 'dark:bg-gray-800', 'shadow', 'sticky', 'top-0', 'z-10'])
       div(class=['container', 'mx-auto', 'px-4', 'py-4', 'flex', 'justify-between', 'items-center'])
+        h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white']) 
+          a(href="/" class=['hover:underline', 'mr-4', 'dark:text-blue-300']) ⬅️ Back
         h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white']) Admin DashBoard 
+
         h1(class=['text-2xl', 'font-bold', 'text-gray-800', 'dark:text-white'])=msg 
         nav(class=['flex', 'items-center'])
           a(href="/srv_auth/logout" class=['text-blue-500', 'hover:underline', 'mr-4', 'dark:text-blue-300']) Logout
 
 
-    // Main Content: Three Vertical Sections
+    // Main Content: Four Vertical Sections (updated flex-row for 4 columns)
     main(class=['container', 'mx-auto', 'px-4', 'py-4', 'flex', 'flex-row', 'gap-4', 'h-full'])
       // Left Section: Add Product
       section(class=['flex-1', 'bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'p-6', 'overflow-y-auto'])
@@ -103,3 +103,51 @@ html(lang="en")
                   button(type="submit" class=['bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-full', 'text-xs', 'hover:bg-red-600']) Delete
         else
           p(class=['text-center', 'text-gray-600', 'dark:text-gray-400', 'text-sm']) No users to delete.
+
+      // NEW SECTION: Manage Promo Codes
+      section(class=['flex-1', 'bg-white', 'dark:bg-gray-800', 'rounded-xl', 'shadow-lg', 'p-6', 'overflow-y-auto'])
+        h2(class=['text-xl', 'font-bold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-4']) Manage Promo Codes
+        // Add Promo Code
+        form(action="/srv_auth/createPromoSeason" method="POST" class=['space-y-4', 'mb-4'])
+          div
+            label(for="promocode" class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Promo Code
+            input#promocode(type="text" name="promocode" required class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          div
+            label(for="season" class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Season
+            input#season(type="text" name="season" required class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          div
+            label(for="description" class=['block', 'text-xs', 'font-medium', 'text-gray-700', 'dark:text-gray-300']) Description (Optional)
+            input#description(type="text" name="description" class=['mt-1', 'block', 'w-full', 'px-2', 'py-1', 'text-sm', 'border', 'border-gray-300', 'dark:border-gray-600', 'rounded-md', 'dark:bg-gray-700', 'dark:text-white'])
+          div(class=['text-center'])
+            button(type="submit" class=['bg-blue-500', 'text-white', 'px-4', 'py-1', 'rounded-full', 'text-sm', 'hover:bg-blue-600']) Add Promo
+
+
+
+
+        // Delete Promo Code
+        h3(class=['text-lg', 'font-semibold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-2']) Delete Promo Code
+        if promoCodes && promoCodes.length
+          ul(class=['space-y-2'])
+            each promo in promoCodes
+              li(class=['flex', 'justify-between', 'items-center', 'text-sm'])
+                span(class=['text-gray-700', 'dark:text-gray-300']) #{promo.promocode} (#{promo.season})
+                form(action="/srv_auth/delete-promo-code-proxy" method="POST")
+                  input(type="hidden" name="promocode" value=promo.promocode)
+                  button(type="submit" class=['bg-red-500', 'text-white', 'px-3', 'py-1', 'rounded-full', 'text-xs', 'hover:bg-red-600']) Delete
+        else
+          p(class=['text-center', 'text-gray-600', 'dark:text-gray-400', 'text-sm']) No promo codes to delete.
+
+
+
+        //- // Select Active Promo Code (NEW SECTION)
+        //- h3(class=['text-lg', 'font-semibold', 'text-gray-800', 'dark:text-white', 'text-center', 'mb-2']) Select Active Promo Code
+        //- if promoCodes && promoCodes.length
+        //-   form(action="/srv_auth/selectPromoSeason" method="POST" class=['space-y-2'])
+        //-     each promo in promoCodes
+        //-       div(class=['flex', 'items-center'])
+        //-         input(type="radio" id=`radio-promo-${promo.promocode}` name="selectedPromocode" value=promo.promocode class=['mr-2', 'form-radio', 'text-blue-500'])
+        //-         label(for=`radio-promo-${promo.promocode}` class=['text-sm', 'text-gray-700', 'dark:text-gray-300']) #{promo.promocode} (#{promo.season})
+        //-     div(class=['text-center', 'mt-4'])
+        //-       button(type="submit" class=['bg-green-500', 'text-white', 'px-4', 'py-1', 'rounded-full', 'text-sm', 'hover:bg-green-600']) Set Active Promo
+        //- else
+        //-   p(class=['text-center', 'text-gray-600', 'dark:text-gray-400', 'text-sm']) No promo codes available to select.
